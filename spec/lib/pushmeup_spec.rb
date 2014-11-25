@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Pushmeup do
   describe "APNS" do
-    it "should have a APNS object" do
+    it "should have an APNS object" do
       defined?(APNS).should_not be_false
     end
 
@@ -92,7 +92,7 @@ describe Pushmeup do
         it 'fails' do
           expect do
             APNS.send_notification(token, message)
-          end.to raise_error(APNS::ConfigurationError, /Supply the path to your pem file, or the binary pem data/)
+          end.to raise_error(APNS::ConfigurationError, /PEM not configured properly/)
         end
       end
     end

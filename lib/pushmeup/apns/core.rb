@@ -55,7 +55,8 @@ module APNS
     apns_feedback = []
 
     # read lines from the socket
-    while line = ssl.read(38).strip
+    while line = ssl.read(38)
+      line.strip!
       f = line.unpack('N1n1H140')
       apns_feedback << { :timestamp => Time.at(f[0]), :token => f[2] }
     end
@@ -123,7 +124,7 @@ protected
       raise ConfigurationError.new('The specified PEM file does not exist.') unless File.exist?(@pem_path)
       @pem_data = File.read(@pem_path)
     else
-      raise ConfigurationError.new('PEM information not present.')
+      raise ConfigurationError.new('PEM not configured properly.')
     end
   end
 
