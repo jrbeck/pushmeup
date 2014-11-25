@@ -9,22 +9,18 @@ describe Pushmeup do
     it "should not forget the APNS default parameters" do
       APNS.host.should == "gateway.sandbox.push.apple.com"
       APNS.port.should == 2195
-      APNS.pem.should be_equal(nil)
-      APNS.pass.should be_equal(nil)
+      APNS.pem_path.should be_equal(nil)
+      APNS.pem_password.should be_equal(nil)
     end
 
     describe "Notifications" do
-
       describe "#==" do
-
         it "should properly equate objects without caring about object identity" do
           a = APNS::Notification.new("123", {:alert => "hi"})
           b = APNS::Notification.new("123", {:alert => "hi"})
           a.should eq(b)
         end
-
       end
-
     end
 
     describe '.send_notification' do
@@ -38,7 +34,7 @@ describe Pushmeup do
       let(:packaged) { 'packaged' }
 
       after do
-        APNS.pem = nil
+        APNS.pem_path = nil
         APNS.pem_data = nil
       end
 
@@ -66,14 +62,14 @@ describe Pushmeup do
             allow(File).to receive(:read).with(path).and_return(pem_data)
           end
 
-          before { APNS.pem = '/good/path' }
+          before { APNS.pem_path = '/good/path' }
           before { APNS.send_notification(token, message) }
 
           include_examples 'notifications'
         end
 
         context 'when the pem does not exist' do
-          before { APNS.pem = '/bad/path' }
+          before { APNS.pem_path = '/bad/path' }
 
           it 'fails' do
             expect do
@@ -91,7 +87,7 @@ describe Pushmeup do
       end
 
       context 'without pem or pem_data' do
-        before { APNS.pem = nil }
+        before { APNS.pem_path = nil }
 
         it 'fails' do
           expect do
@@ -141,15 +137,12 @@ describe Pushmeup do
       end
 
       describe "#==" do
-
         it "should properly equate objects without caring about object identity" do
           a = GCM::Notification.new("id", { :data => "data" })
           b = GCM::Notification.new("id", { :data => "data" })
           a.should eq(b)
         end
-
       end
-
     end
   end
 end
