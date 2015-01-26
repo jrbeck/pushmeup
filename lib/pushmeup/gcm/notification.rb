@@ -18,7 +18,7 @@ module GCM
       elsif tokens.is_a?(String)
         @device_tokens = [tokens]
       else
-        raise "device_tokens needs to be either a Hash or String"
+        raise "device_tokens needs to be either an Array or a String"
       end
     end
 
