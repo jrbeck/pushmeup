@@ -47,13 +47,13 @@ module GCM
 
   def self.prepare_and_send(n)
     if n.device_tokens.count < 1 || n.device_tokens.count > 1000
-      raise "Number of device_tokens must be between 1 and 1000"
+      raise "Number of device tokens must be between 1 and 1000"
     end
     if !n.collapse_key.nil? && n.time_to_live.nil?
-      raise %q{If you are defining a "colapse key" you need a "time to live"}
+      raise %q{If you are defining a "collapse key" you need a "time to live"}
     end
     if @key.is_a?(Hash) && n.identity.nil?
-      raise %{If your key is a hash of keys you'l need to pass a identifier to the notification!}
+      raise %{If your key is a Hash of keys you'll need to pass a identifier to the notification!}
     end
 
     if self.format == :json
